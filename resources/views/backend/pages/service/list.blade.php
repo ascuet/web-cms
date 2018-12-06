@@ -26,6 +26,7 @@
 	          <th>Image</th>
 	          <th>Sort Order</th>
 	          <th>Status</th>
+	          <th>Action</th>
 	        </tr>
 	      </thead>
 	      <tfoot>
@@ -35,6 +36,7 @@
 	          <th>Image</th>
 	          <th>Sort Order</th>
 	          <th>Status</th>
+	          <th>Action</th>
 	        </tr>
 	      </tfoot>
 	      <tbody>
@@ -52,7 +54,10 @@
 							
 						</td>
 						<td>{{ $d->sort_order }}</td>
-						<td>{{ ($d->status)==1 ? 'Active' : 'Inactive' }}</td>
+						<td>{{ ($d->status) == 1 ? 'Active' : 'Inactive' }}</td>
+						<td>
+							<a href="{{ route('service-edit',['id'=>$d->id]) }}" class="btn btn-info">Edit</a>
+						</td>
 					</tr>
 				@endforeach
 	      	@endif

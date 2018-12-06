@@ -42,6 +42,39 @@ class ServiceController extends Controller
     	}
     }
 
+    public function edit($id)
+    {
+        $service = Service::find($id);
+        return view('backend.pages.service.edit',['data'=>$service]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $obj = Service::find($id);
+        $obj->title = $request->title;
+        $obj->description = $request->description;
+        $obj->status = ($request->status === 'on') ? true:false;
+        $obj->sort_order = $request->sort_order;
+        if ($request->file('filename'))
+        {
+            // delete file
+            $path         = public_path().'\uploads\service\\'.$request->hdn_image_url;
+            File::delete($path);
+            // delete file
+           $originalImage = $request->file('filename');
+           $image_url     = $this->uploadImage($originalImage);
+        }
+        else
+        {
+            $image_url = $request->hdn_image_url;
+        }
+        $obj->image_url = $image_url;
+        if($obj->save())
+        {
+            return redirect()->to('/services');
+        }
+    }
+
     private function uploadImage($originalImage)
     {
         $image     = Image::make($originalImage);
@@ -51,11 +84,13 @@ class ServiceController extends Controller
         $ext            = end($ext2);
         $imagename      = time().'.'.$ext;
         // local
-        $path            = public_path().'/uploads/service/'; 
+        $path           = public_path().'/uploads/service/'; 
         // deployment
         //$path          = base_path().'/../'.'uploads/banner/';
         //$image->resize(1600,600);
         $image->save($path.$imagename);
         return $imagename;
     }
+
+    
 }

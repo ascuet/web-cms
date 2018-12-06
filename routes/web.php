@@ -24,9 +24,11 @@ Route::group(['middleware' => 'checkloggedin'], function(){
 	Route::get('post-add', 'Admin\PostController@add');
 	Route::post('post-store', 'Admin\PostController@store');
 
-	Route::get('services', 'Admin\ServiceController@index');
-	Route::get('service-add', 'Admin\ServiceController@add');
+	Route::get('services', 'Admin\ServiceController@index')->name('services');
+	Route::get('service-add', 'Admin\ServiceController@add')->name('service-add');
 	Route::post('service-store', 'Admin\ServiceController@store');
+	Route::get('service-edit/{id}', 'Admin\ServiceController@edit')->name('service-edit');
+	Route::post('service-update/{id}', 'Admin\ServiceController@update')->name('service-update');
 
 	Route::get('logout', 'Admin\AccountController@logout');
 });
