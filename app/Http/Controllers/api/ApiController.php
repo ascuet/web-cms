@@ -11,13 +11,14 @@ class ApiController extends Controller
 {
     public function getservices()
     {
-    	$services = Service::all();
+    	$services = Service::orderBy('id','desc')->take(5)->get();
     	if($services){
-    		return response()->json([
-	    		'success' => true,
-	    		'data'    => $services,
-	    		'message' => 'Services Retrieved'
-	    	], 200);
+            return response()->json($services);
+    		// return response()->json([
+	    	// 	'success' => true,
+	    	// 	'data'    => $services,
+	    	// 	'message' => 'Services Retrieved'
+	    	// ], 200);
     	}
     	else
     	{
